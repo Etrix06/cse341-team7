@@ -28,13 +28,14 @@ exports.postReset = (req, res, next) => {
     })
     .then(result => {
       res.redirect('/');
+      console.log('Email sent.');      
       transporter.sendMail({
         to: req.body.email,
         from: 'alc18005@byui.edu',
         subject: 'Password reset.',
         html: `
           <p>You requested a password reset from Alcala Shop</p>
-          <p>Click this <a href="https://alcala-project341.herokuapp.com/reset/${token}">link</a> to set a new password.</p>
+          <p>Click this <a href="https://cse341-team7-project2.herokuapp.com/reset/${token}">link</a> to set a new password.</p>
         `         
         //   needs to be infront of the /reset above in order to work with academind
         //http://localhost:3000
@@ -58,7 +59,7 @@ In auth. js controller-
 comment out line 4
 comment in lines 13 - 18
 
-change back postReset with code below: lines 200 - 237
+change back postReset with code below: lines 200 - 238
 
 exports.postReset = (req, res, next) => {
   crypto.randomBytes(32, (err, buffer) => {
