@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "nodemon EQ-SERVICE-FINDER/app.js",
+    "start": "nodemon EQ-SERVICE-FINDER-3/app.js",
     "test": "node test.js",
     "prove01": "nodemon prove01.js"
   },
