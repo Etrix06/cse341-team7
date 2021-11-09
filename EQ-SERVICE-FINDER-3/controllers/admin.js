@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const {
   validationResult
-} = require('express-validator/check');
+} = require('express-validator');
 
 const Product = require('../models/product');
 

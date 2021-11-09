@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const {
     body
-} = require('express-validator/check');
+} = require('express-validator');
 
 const adminController = require('../controllers/admin');
 const isAuth = require('../middleware/is-auth');

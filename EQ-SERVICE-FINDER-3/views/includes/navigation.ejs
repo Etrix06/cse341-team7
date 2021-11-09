@@ -1,5 +1,8 @@
 <div class="backdrop"></div>
 <header class="main-header">
+    <div class="main-header__logo" id="side-title-toggle">
+        <a href="/">EQ Service Finder</a>
+    </div>
     <button id="side-menu-toggle">Menu</button>
     <nav class="main-header__nav">
         <div class="main-header__logo">
@@ -55,24 +58,27 @@
 <nav class="mobile-nav">
     <ul class="mobile-nav__item-list">
         <li class="mobile-nav__item">
-            <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
+            <a class="<%= path === '/' ? 'active' : '' %>" href="/">EQ Service Finder</a>
         </li>
         <li class="mobile-nav__item">
-            <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+            <a class="<%= path === '/products' ? 'active' : '' %>" href="/services">Services</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/products' ? 'active' : '' %>" href="/talents">Talents</a>
         </li>
         <% if (isAuthenticated) { %>
-            <li class="mobile-nav__item">
+            <!--<li class="mobile-nav__item">
                 <a class="<%= path === '/cart' ? 'active' : '' %>" href="/cart">Cart</a>
             </li>
             <li class="mobile-nav__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-            </li>
+            </li>-->
             <li class="mobile-nav__item">
-                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Product
+                <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Service
                 </a>
             </li>
             <li class="mobile-nav__item">
-                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Admin Products
+                <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Edit Service
                 </a>
             </li>
         <% } %>
