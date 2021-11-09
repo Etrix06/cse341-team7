@@ -7,20 +7,23 @@ const {
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
+  const eqType = req.params.eqType;
+  console.log(eqType);
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
     editing: false,
     hasError: false,
     errorMessage: null,
-    validationErrors: []
+    validationErrors: [],
+    eqType: eqType
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
-  const date = req.body.date
+  const eqType = req.body.eqType;
   // const price = req.body.price;
   const description = req.body.description;
   const errors = validationResult(req);
@@ -35,7 +38,7 @@ exports.postAddProduct = (req, res, next) => {
       product: {
         title: title,
         imageUrl: imageUrl,
-        // price: price,
+        eqType: eqType,
         description: description
       },
       errorMessage: errors.array()[0].msg,
@@ -46,7 +49,7 @@ exports.postAddProduct = (req, res, next) => {
   const product = new Product({
     title: title,
     imageUrl: imageUrl,
-    // price: price,
+    eqType: eqType,
     description: description,
     userId: req.user
   });
@@ -141,6 +144,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  const eqType = req.params.eqType;
   Product.find({
       userId: req.user._id
     })
@@ -151,7 +155,8 @@ exports.getProducts = (req, res, next) => {
       res.render('admin/products', {
         prods: products,
         pageTitle: 'Admin Products',
-        path: '/admin/products'
+        path: '/admin/products',
+        eqType: eqType
       });
     })
     .catch(err => {
