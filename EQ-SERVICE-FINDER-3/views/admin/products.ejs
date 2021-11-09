@@ -9,6 +9,7 @@
         <% if (prods.length > 0) { %>
         <div class="grid">
             <% for (let product of prods) { %>
+            <% if (product.eqType === eqType) { %>
             <article class="card product-item">
                 <header class="card__header">
                     <h1 class="product__title">
@@ -36,6 +37,8 @@
 
                 </div>
             </article>
+            <% } %>
+
             <% } %>
         </div>
         <% } else { %>
