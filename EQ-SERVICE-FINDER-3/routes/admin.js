@@ -11,10 +11,10 @@ const isAuth = require('../middleware/is-auth');
 const router = express.Router();
 
 // /admin/add-product => GET
-router.get('/add-product', isAuth, adminController.getAddProduct);
+router.get('/add-product/:eqType', isAuth, adminController.getAddProduct);
 
 // /admin/products => GET
-router.get('/products', isAuth, adminController.getProducts);
+router.get('/products/:eqType', isAuth, adminController.getProducts);
 
 // /admin/add-product => POST
 router.post(
