@@ -93,6 +93,7 @@ form {
 
 .image__banner {
   width: 100%;
+  min-width: auto;
   height: 350px;
   background-size: cover;
   background-image: url('/images/eq-banner.jpg');
@@ -151,7 +152,7 @@ form {
 .mobile-nav__item a.active,
 .mobile-nav__item button:hover,
 .mobile-nav__item button:active {
-  background: #936639;
+  background: #0d2e5a;
   color: white;
   border-radius: 3px;
 }
@@ -274,9 +275,13 @@ form {
   color: red;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 840px) {
   .main-header__nav {
     display: flex;
+  }
+
+  #side-title-toggle {
+    display: none;
   }
 
   #side-menu-toggle {

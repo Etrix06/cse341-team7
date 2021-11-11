@@ -5,7 +5,7 @@ const sendgridTransport = require('nodemailer-sendgrid-transport');
 require('dotenv').config();
 const {
   validationResult
-} = require('express-validator/check');
+} = require('express-validator');
 
 const User = require('../models/user');
 
@@ -16,6 +16,12 @@ const User = require('../models/user');
 //  apiKey: api_key,
 //  domain: domain
 //});
+
+const transporter = nodemailer.createTransport(sendgridTransport({ 
+  auth: {
+    api_key: process.env.API_KEY
+  }
+}));
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
@@ -145,34 +151,30 @@ exports.postSignup = (req, res, next) => {
   }
 
   bcrypt
-    .hash(password, 12)
-    .then(hashedPassword => {
-      const user = new User({
-        email: email,
-        password: hashedPassword,
-        cart: {
-          items: []
-        }
-      });
-      return user.save();
-    })
-    .then(result => {
-      res.redirect('/login');
-      mailgun.messages().send({
-          to: email,
-          from: 'Flower House <esp19005@byui.edu>',
-          subject: 'Welcome to Flower House',
-          html: '<h1>You successfully signed up! Welcome to Flower House</h1>'
-        },
-        function (error, body) {
-          console.log(body);
-        });
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
+  .hash(password, 12)
+  .then(hashedPassword => {
+    const user = new User({
+      email: email,
+      password: hashedPassword,
+      cart: { items: [] }
     });
+    return user.save();
+})
+.then(result => {
+  res.redirect('/login');
+  return transporter.sendMail({
+    to: email,
+    from: 'alc18005@byui.edu',
+    subject: 'Signup succeeded!',
+    html: '<h1>You successfully signed up to EQ Service Finder!</h1>' ,
+    html: '<h2>Email sent from Heroku-Project2</h2>'           
+  }); 
+})
+.catch(err => {
+  const error = new Error(err);
+  error.httpStatusCode = 500;
+  return next(error);
+});
 };
 
 
