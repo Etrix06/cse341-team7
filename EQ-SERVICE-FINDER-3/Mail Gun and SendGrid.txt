@@ -6,6 +6,7 @@ I will change them back to original once I am done for the day. So you can ignor
 In auth.js controller- 
 comment in line 4
 comment out lines 13 - 18
+comment in lines 20 - 24
 
 Replace postReset with this: lines 200 - 249
 
@@ -58,8 +59,9 @@ To change back
 In auth. js controller-
 comment out line 4
 comment in lines 13 - 18
+comment out lines 20 -24
 
-change back postReset with code below: lines 200 - 238
+change back postReset with code below: lines 206 - 244
 
 exports.postReset = (req, res, next) => {
   crypto.randomBytes(32, (err, buffer) => {
