@@ -39,7 +39,7 @@ router.post(
     adminController.postAddProduct
 );
 
-router.get('/edit-product/:productId', isAuth, adminController.getEditProduct);
+router.get('/edit-product/:eqType/:productId', isAuth, adminController.getEditProduct);
 
 router.post(
     '/edit-product',

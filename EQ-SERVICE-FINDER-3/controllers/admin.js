@@ -68,11 +68,13 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
+  console.log("EDIT")
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
+  const eqType = req.params.eqType;
   Product.findById(prodId)
     .then(product => {
       if (!product) {
@@ -85,7 +87,8 @@ exports.getEditProduct = (req, res, next) => {
         product: product,
         hasError: false,
         errorMessage: null,
-        validationErrors: []
+        validationErrors: [],
+        eqType: eqType
       });
     })
     .catch(err => {
