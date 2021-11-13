@@ -104,7 +104,6 @@ exports.postEditProduct = (req, res, next) => {
   // const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
-
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -136,7 +135,7 @@ exports.postEditProduct = (req, res, next) => {
       product.imageUrl = updatedImageUrl;
       return product.save().then(result => {
         console.log('UPDATED PRODUCT!');
-        res.redirect('/admin/products');
+        res.redirect('/');   //this is where we redirect happens.  Right now it goes home.
       });
     })
     .catch(err => {
