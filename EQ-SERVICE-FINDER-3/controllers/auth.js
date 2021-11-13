@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const sendgridTransport = require('nodemailer-sendgrid-transport');
+//const sendgridTransport = require('nodemailer-sendgrid-transport');
 require('dotenv').config();
 const {
   validationResult
@@ -10,18 +10,19 @@ const {
 const User = require('../models/user');
 
 //mailgun email
-//const api_key = process.env.API_KEY;
-//const domain = process.env.DOMAIN;
-//const mailgun = require('mailgun-js')({
-//  apiKey: api_key,
-//  domain: domain
-//});
+const api_key = process.env.API_KEY;
+const domain = process.env.DOMAIN;
+const mailgun = require('mailgun-js')({
+  apiKey: api_key,
+  domain: domain
+});
 
-const transporter = nodemailer.createTransport(sendgridTransport({ 
-  auth: {
-    api_key: process.env.API_KEY
-  }
-}));
+//const transporter = nodemailer.createTransport(sendgridTransport({ 
+//  auth: {
+//    api_key: process.env.API_KEY
+//  }
+//}));
+
 
 exports.getLogin = (req, res, next) => {
   let message = req.flash('error');
@@ -54,6 +55,7 @@ exports.getSignup = (req, res, next) => {
     pageTitle: 'Signup',
     errorMessage: message,
     oldInput: {
+      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -131,6 +133,7 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
 
@@ -142,6 +145,7 @@ exports.postSignup = (req, res, next) => {
       pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
       oldInput: {
+        username: username,
         email: email,
         password: password,
         confirmPassword: req.body.confirmPassword
@@ -154,6 +158,7 @@ exports.postSignup = (req, res, next) => {
   .hash(password, 12)
   .then(hashedPassword => {
     const user = new User({
+      username: username,
       email: email,
       password: hashedPassword,
       cart: { items: [] }
@@ -206,36 +211,47 @@ exports.postReset = (req, res, next) => {
       return res.redirect('/reset');
     }
     const token = buffer.toString('hex');
-    User.findOne( { email: req.body.email})
-    .then(user => {
-      if (!user) {
-        req.flash('error', 'No account with that email found.');
-        return res.redirect('/reset');
-      }
-      user.resetToken = token;
-      user.resetTokenExpiration = Date.now() + 3600000;
-      return user.save();
-    })
-    .then(result => {
-      res.redirect('/');
-      console.log('Email sent.');
-      transporter.sendMail({
-        to: req.body.email,
-        from: 'alc18005@byui.edu',
-        subject: 'Password reset.',
-        html: `
-          <p>You requested a password reset from EQ Service Finder</p>
-          <p>Click this <a href="https://cse341-team7-project2.herokuapp.com/reset/${token}">link</a> to set a new password.</p>
-        `         
-        //   needs to be infront of the /reset above in order to work with academind
-        //http://localhost:3000
-      });
-    })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatusCode = 500;
-      return next(error);
-    });
+    User.findOne({
+        email: req.body.email
+      })
+      .then(user => {
+        if (!user) {
+          req.flash('error', 'No account with that email found.');
+          return res.redirect('/reset');
+        }
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        return user.save();
+      })
+      .then(result => {
+        res.redirect('/');
+        mailgun.messages().send({
+            to: req.body.email,
+            from: 'Flower House <esp19005@byui.edu>',
+            subject: 'Password Reset for Flower House',
+            html: `
+            <p>You requested a password reset</p>
+            <p>Click this <a href="https://cse341-project-master.herokuapp.com/reset/${token}">link</a> to set a new password.</p>
+          `
+            //<p>Click this <a href="http://localhost:5000/reset/${token}">link</a> to set a new password.</p>
+          },
+          function (error, body) {
+            console.log(body);
+          });
+        // transporter.sendMail({
+        //   to: req.body.email,
+        //   from: 'shop@node-complete.com',
+        //   subject: 'Password reset',
+        //   html: `
+        //     <p>You requested a password reset</p>
+        //     <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+        //   `
+        // });
+      })
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);      });
   });
 };
 
