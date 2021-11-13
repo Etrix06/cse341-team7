@@ -4,6 +4,17 @@
         <a href="/">EQ Service Finder</a>
     </div>
     <button id="side-menu-toggle">Menu</button>
+    <div class="main-header__item"  id="side-title-toggle">
+        <% let pagePath;%>               <!--This code adds the route name to html when screen is small-->
+        <% pagePath = path.split('/');%>
+        <% if (path === '/') {%>
+            <% pagePath = ['', 'home']; %>
+        <% } %>
+        <% if (pagePath[1] === 'admin') { %> %>
+            <% pagePath[1] = pagePath[2]; %>
+        <% } %>
+        <a class="active" href="<%=path%>"><%= pagePath[1] %></a>
+    </div>
     <nav class="main-header__nav">
         <div class="main-header__logo">
             <a href="/">EQ Service Finder</a>
@@ -56,7 +67,7 @@
             </li>
             <li class="mobile-nav__item">
                 <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
-            </li>-->
+            </li>
             <li class="mobile-nav__item">
                 <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product">Add Service
                 </a>
@@ -64,7 +75,7 @@
             <li class="mobile-nav__item">
                 <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products">Edit Service
                 </a>
-            </li>
+            </li>-->
         <% } %>
         <% if (!isAuthenticated) { %>
             <li class="mobile-nav__item">
