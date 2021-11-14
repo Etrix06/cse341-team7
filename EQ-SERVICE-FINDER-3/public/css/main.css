@@ -93,8 +93,8 @@ form {
 
 .image__banner {
   width: 100%;
-  min-width: auto;
-  height: 350px;
+  min-width: 200px;
+  min-height: 150px;
   background-size: cover;
   background-image: url('/images/eq-banner.jpg');
 }
@@ -290,5 +290,13 @@ form {
 
   .user-message {
     width: 30rem;
+  }
+
+  .image__banner {
+    width: 100%;
+    min-width: auto;
+    height: 350px;
+    background-size: cover;
+    background-image: url('/images/eq-banner.jpg');
   }
 }
