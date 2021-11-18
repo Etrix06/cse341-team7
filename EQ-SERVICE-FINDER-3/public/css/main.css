@@ -93,8 +93,8 @@ form {
 
 .image__banner {
   width: 100%;
-  min-width: auto;
-  height: 350px;
+  min-width: 200px;
+  min-height: 150px;
   background-size: cover;
   background-image: url('/images/eq-banner.jpg');
 }
@@ -275,6 +275,26 @@ form {
   color: red;
 }
 
+.pagination {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: #936639;
+  padding: .5rem;
+  border: 1px solid #936639;
+  margin: 0 1rem;
+}
+
+.pagination a:hover,
+.pagination a:active,
+.pagination a.active {
+  background-color: #936639;
+  color: white;
+}
+
 @media (min-width: 840px) {
   .main-header__nav {
     display: flex;
@@ -290,5 +310,13 @@ form {
 
   .user-message {
     width: 30rem;
+  }
+
+  .image__banner {
+    width: 100%;
+    min-width: auto;
+    height: 350px;
+    background-size: cover;
+    background-image: url('/images/eq-banner.jpg');
   }
 }

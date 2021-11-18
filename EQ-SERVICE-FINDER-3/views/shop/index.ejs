@@ -7,6 +7,8 @@
 
     <main>
         <div class="image__banner"></div>
+        <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
+
         <% if (prods.length > 0) { %>
         <div class="grid">
             <% for (let product of prods) { %>
@@ -30,6 +32,7 @@
             </article>
             <% } %>
         </div>
+        <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
         <% } else { %>
         <h1>No Products Found!</h1>
         <% } %>
