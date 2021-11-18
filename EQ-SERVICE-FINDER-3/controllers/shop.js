@@ -2,13 +2,13 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 const User = require('../models/user');
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 6;
 
 exports.getServices = (req, res, next) => {
  const page = +req.query.page || 1;             //for pagination
-  let totalItems;
+  let totalItems;  
 
-  Product.find().countDocuments().then(numProducts => {
+  Product.find({eqType: 'service'}).countDocuments().then(numProducts => {
     totalItems = numProducts;
     return Product.find()
     .skip((page - 1) * ITEMS_PER_PAGE)              //for pagination
@@ -38,7 +38,7 @@ exports.getTalents = (req, res, next) => {
   const page = +req.query.page || 1;             //for pagination
   let totalItems;
 
-  Product.find().countDocuments().then(numProducts => {
+  Product.find({eqType: 'talent'}).countDocuments().then(numProducts => {
     totalItems = numProducts;
     return Product.find()
     .skip((page - 1) * ITEMS_PER_PAGE)              //for pagination

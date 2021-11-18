@@ -57,7 +57,7 @@ exports.postAddProduct = (req, res, next) => {
     .save()
     .then(result => {
       // console.log(result);
-      console.log('Created Product');
+      console.log('Created Post');
       res.redirect('/');              // this is where add product redirects now
     })
     .catch(err => {
@@ -134,7 +134,7 @@ exports.postEditProduct = (req, res, next) => {
       product.description = updatedDesc;
       product.imageUrl = updatedImageUrl;
       return product.save().then(result => {
-        console.log('UPDATED PRODUCT!');
+        console.log('UPDATED YOUR POST!');
         res.redirect('/');   //this is where we redirect happens.  Right now it goes home.
       });
     })
@@ -175,7 +175,7 @@ exports.postDeleteProduct = (req, res, next) => {
       userId: req.user._id
     })
     .then(() => {
-      console.log('DESTROYED PRODUCT');
+      console.log('DESTROYED POST');
       res.redirect('/admin/products');
     })
     .catch(err => {
