@@ -16,6 +16,10 @@ router.get('/talents', shopController.getTalents);
 
 router.get('/products/:productId', shopController.getProduct);
 
+router.get('/signups', isAuth, shopController.getSignups);
+
+router.post('/signups', isAuth, shopController.postSignups);
+
 // router.get('/cart', isAuth, shopController.getCart);
 
 // router.post('/cart', isAuth, shopController.postCart);

@@ -60,6 +60,19 @@ form {
   padding: 0;
 }
 
+.main-header__item p {
+  font: inherit;
+  color: white;
+  font-size: 1.2rem;
+  cursor: default;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  margin: 0 1rem;
+  padding: 0;
+
+}
+
 .main-header__item a,
 .main-header__item button {
   font: inherit;

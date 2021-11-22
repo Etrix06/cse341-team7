@@ -129,6 +129,42 @@ exports.getIndex = (req, res, next) => {
     });
 };
 
+ exports.getSignups = (req, res, next) => {
+   req.user
+     .populate('cart.items.productId')
+     // .execPopulate()
+     .then(user => {
+       const products = user.cart.items;
+       res.render('shop/signups', {
+         path: '/signups',
+         pageTitle: 'Your Signups',
+         products: products
+       });
+     })
+     .catch(err => {
+       const error = new Error(err);
+       error.httpStatusCode = 500;
+       return next(error);
+     });
+ };
+
+ exports.postSignups = (req, res, next) => {
+   const prodId = req.body.productId;
+   Product.findById(prodId)
+     .then(product => {
+       return req.user.addToCart(product);
+     })
+     .then(result => {
+       console.log(result);
+       res.redirect('/signups');
+     })
+     .catch(err => {
+       const error = new Error(err);
+       error.httpStatusCode = 500;
+       return next(error);
+     });
+ };
+
 // exports.getCart = (req, res, next) => {
 //   req.user
 //     .populate('cart.items.productId')
