@@ -24,7 +24,7 @@ router.post('/signups', isAuth, shopController.postSignups);
 
 // router.post('/cart', isAuth, shopController.postCart);
 
-// router.post('/cart-delete-item', isAuth, shopController.postCartDeleteProduct);
+ router.post('/cart-delete-item', isAuth, shopController.postSignupCancel);
 
 // router.post('/create-order', isAuth, shopController.postOrder);
 

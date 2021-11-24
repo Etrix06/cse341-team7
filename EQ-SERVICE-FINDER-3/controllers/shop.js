@@ -201,19 +201,19 @@ exports.getIndex = (req, res, next) => {
 //     });
 // };
 
-// exports.postCartDeleteProduct = (req, res, next) => {
-//   const prodId = req.body.productId;
-//   req.user
-//     .removeFromCart(prodId)
-//     .then(result => {
-//       res.redirect('/cart');
-//     })
-//     .catch(err => {
-//       const error = new Error(err);
-//       error.httpStatusCode = 500;
-//       return next(error);
-//     });
-// };
+ exports.postSignupCancel = (req, res, next) => {
+   const prodId = req.body.productId;
+   req.user
+     .removeFromCart(prodId)
+     .then(result => {
+       res.redirect('/signups');
+     })
+     .catch(err => {
+       const error = new Error(err);
+       error.httpStatusCode = 500;
+       return next(error);
+     });
+ };
 
 // exports.postOrder = (req, res, next) => {
 //   req.user

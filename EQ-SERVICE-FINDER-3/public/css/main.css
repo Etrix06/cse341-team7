@@ -308,6 +308,10 @@ form {
   color: white;
 }
 
+.admin {
+  text-align: center;
+}
+
 @media (min-width: 840px) {
   .main-header__nav {
     display: flex;
