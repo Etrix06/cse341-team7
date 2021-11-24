@@ -64,7 +64,7 @@ exports.getTalents = (req, res, next) => {
     });
 };
 
-exports.getProduct = (req, res, next) => {
+exports.getProduct = (req, res, next) => {  //change to getPosting
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then(product => {
