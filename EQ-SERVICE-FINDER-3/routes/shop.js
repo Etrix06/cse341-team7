@@ -21,7 +21,7 @@ router.get('/signups', isAuth, shopController.getSignups);
 
 router.post('/signups', isAuth, shopController.postSignups);
 
-
+router.post('/PostSignupCancel', isAuth, shopController.postSignupCancel);
 
 
 

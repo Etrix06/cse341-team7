@@ -14,7 +14,7 @@
             <li class="cart__item">
                 <h1><%= p.productId.title %></h1>
                 <h2 style="font-variant-caps: all-small-caps;"><%= p.productId.eqType %></h2>
-                <form action="/cart-delete-item" method="POST">
+                <form action="/postSignupCancel" method="POST">
                     <input type="hidden" value="<%= p.productId._id %>" name="productId">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="btn danger" type="submit">Cancel Signup</button>
