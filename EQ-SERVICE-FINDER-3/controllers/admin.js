@@ -26,6 +26,7 @@ exports.postAddProduct = (req, res, next) => {
   const eqType = req.body.eqType;
   // const price = req.body.price;
   const description = req.body.description;
+  const contact = req.body.contact;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -39,7 +40,8 @@ exports.postAddProduct = (req, res, next) => {
         title: title,
         imageUrl: imageUrl,
         eqType: eqType,
-        description: description
+        description: description,
+        contact: contact
       },
       errorMessage: errors.array()[0].msg,
       validationErrors: errors.array()
@@ -51,6 +53,7 @@ exports.postAddProduct = (req, res, next) => {
     imageUrl: imageUrl,
     eqType: eqType,
     description: description,
+    contact: contact,
     userId: req.user
   });
   product
@@ -104,6 +107,7 @@ exports.postEditProduct = (req, res, next) => {
   // const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
+  const updatedContact = req.body.contact;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -117,6 +121,7 @@ exports.postEditProduct = (req, res, next) => {
         imageUrl: updatedImageUrl,
         // price: updatedPrice,
         description: updatedDesc,
+        contact: updatedContact,
         _id: prodId
       },
       errorMessage: errors.array()[0].msg,
@@ -133,6 +138,7 @@ exports.postEditProduct = (req, res, next) => {
       // product.price = updatedPrice;
       product.description = updatedDesc;
       product.imageUrl = updatedImageUrl;
+      product.contact = updatedContact;
       return product.save().then(result => {
         console.log('UPDATED YOUR POST!');
         res.redirect('/');   //this is where we redirect happens.  Right now it goes home.

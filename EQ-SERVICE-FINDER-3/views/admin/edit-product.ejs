@@ -76,6 +76,11 @@
                     name="description" id="description"
                     rows="5"><% if (editing || hasError) { %><%= product.description %><% } %></textarea>
             </div>
+            <div class="form-control">
+                <label for="title">Contact Info</label>
+                <input class="<%= validationErrors.find(e => e.param === 'contact') ? 'invalid' : '' %>" type="text"
+                    name="contact" id="contact" value="<% if (editing || hasError) { %><%= product.contact %><% } %>">
+            </div>
             <% if (editing) { %>
             <input type="hidden" value="<%= product._id %>" name="productId">
             <% } %>
