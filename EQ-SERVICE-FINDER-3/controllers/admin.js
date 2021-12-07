@@ -10,7 +10,7 @@ exports.getAddProduct = (req, res, next) => {
   const eqType = req.params.eqType;
   console.log(eqType);
   res.render('admin/edit-product', {
-    pageTitle: 'Add Product',
+    pageTitle: 'Add ' + eqType,
     path: '/admin/add-product',
     editing: false,
     hasError: false,
@@ -32,7 +32,7 @@ exports.postAddProduct = (req, res, next) => {
   if (!errors.isEmpty()) {
     console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
-      pageTitle: 'Add Product',
+      pageTitle: 'Add ' + eqType,
       path: '/admin/add-product',
       editing: false,
       hasError: true,
