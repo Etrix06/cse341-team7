@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+const eqRoutes = require('./routes/eq');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({
@@ -69,7 +69,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+app.use(eqRoutes);
 app.use(authRoutes);
 
 app.get('/500', errorController.get500);

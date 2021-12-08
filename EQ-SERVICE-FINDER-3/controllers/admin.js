@@ -4,14 +4,14 @@ const {
   validationResult
 } = require('express-validator');
 
-const Product = require('../models/product');
+const Post = require('../models/post');
 
-exports.getAddProduct = (req, res, next) => {
+exports.getAddPost = (req, res, next) => {
   const eqType = req.params.eqType;
   console.log(eqType);
-  res.render('admin/edit-product', {
-    pageTitle: 'Add Product',
-    path: '/admin/add-product',
+  res.render('admin/edit-post', {
+    pageTitle: 'Add Post',
+    path: '/admin/add-post',
     editing: false,
     hasError: false,
     errorMessage: null,
@@ -20,22 +20,21 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
-exports.postAddProduct = (req, res, next) => {
+exports.postAddPost = (req, res, next) => {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const eqType = req.body.eqType;
-  // const price = req.body.price;
   const description = req.body.description;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     console.log(errors.array());
-    return res.status(422).render('admin/edit-product', {
-      pageTitle: 'Add Product',
-      path: '/admin/add-product',
+    return res.status(422).render('admin/edit-post', {
+      pageTitle: 'Add Post',
+      path: '/admin/add-post',
       editing: false,
       hasError: true,
-      product: {
+      post: {
         title: title,
         imageUrl: imageUrl,
         eqType: eqType,
@@ -46,19 +45,19 @@ exports.postAddProduct = (req, res, next) => {
     });
   }
 
-  const product = new Product({
+  const post = new Post({
     title: title,
     imageUrl: imageUrl,
     eqType: eqType,
     description: description,
     userId: req.user
   });
-  product
+  post
     .save()
     .then(result => {
       // console.log(result);
       console.log('Created Post');
-      res.redirect('/');              // this is where add product redirects now
+      res.redirect('/');              // this is where add Post redirects now
     })
     .catch(err => {
       const error = new Error(err);
@@ -67,24 +66,24 @@ exports.postAddProduct = (req, res, next) => {
     });
 };
 
-exports.getEditProduct = (req, res, next) => {
+exports.getEditPost = (req, res, next) => {
   console.log("EDIT")
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
   }
-  const prodId = req.params.productId;
+  const prodId = req.params.postId;
   const eqType = req.params.eqType;
-  Product.findById(prodId)
-    .then(product => {
-      if (!product) {
+  Post.findById(prodId)
+    .then(post => {
+      if (!post) {
         return res.redirect('/');
       }
-      res.render('admin/edit-product', {
-        pageTitle: 'Edit Product',
-        path: '/admin/edit-product',
+      res.render('admin/edit-post', {
+        pageTitle: 'Edit Post',
+        path: '/admin/edit-post',
         editing: editMode,
-        product: product,
+        post: post,
         hasError: false,
         errorMessage: null,
         validationErrors: [],
@@ -98,24 +97,22 @@ exports.getEditProduct = (req, res, next) => {
     });
 };
 
-exports.postEditProduct = (req, res, next) => {
-  const prodId = req.body.productId;
+exports.postEditPost = (req, res, next) => {
+  const prodId = req.body.postId;
   const updatedTitle = req.body.title;
-  // const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(422).render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
+    return res.status(422).render('admin/edit-post', {
+      pageTitle: 'Edit Post',
+      path: '/admin/edit-post',
       editing: true,
       hasError: true,
-      product: {
+      post: {
         title: updatedTitle,
         imageUrl: updatedImageUrl,
-        // price: updatedPrice,
         description: updatedDesc,
         _id: prodId
       },
@@ -124,16 +121,15 @@ exports.postEditProduct = (req, res, next) => {
     });
   }
 
-  Product.findById(prodId)
-    .then(product => {
-      if (product.userId.toString() !== req.user._id.toString()) {
+  Post.findById(prodId)
+    .then(post => {
+      if (post.userId.toString() !== req.user._id.toString()) {
         return res.redirect('/');
       }
-      product.title = updatedTitle;
-      // product.price = updatedPrice;
-      product.description = updatedDesc;
-      product.imageUrl = updatedImageUrl;
-      return product.save().then(result => {
+      post.title = updatedTitle;
+      post.description = updatedDesc;
+      post.imageUrl = updatedImageUrl;
+      return post.save().then(result => {
         console.log('UPDATED YOUR POST!');
         res.redirect('/');   //this is where we redirect happens.  Right now it goes home.
       });
@@ -145,19 +141,19 @@ exports.postEditProduct = (req, res, next) => {
     });
 };
 
-exports.getProducts = (req, res, next) => {
+exports.getPosts = (req, res, next) => {
   const eqType = req.params.eqType;
-  Product.find({
+  Post.find({
       userId: req.user._id
     })
     // .select('title price -_id')
     // .populate('userId', 'name')
-    .then(products => {
-      console.log(products);
-      res.render('admin/products', {
-        prods: products,
-        pageTitle: 'Admin Products',
-        path: '/admin/products',
+    .then(posts => {
+      console.log(posts);
+      res.render('admin/posts', {
+        prods: posts,
+        pageTitle: 'Admin Posts',
+        path: '/admin/posts',
         eqType: eqType
       });
     })
@@ -168,9 +164,9 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
-exports.postDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
-  Product.deleteOne({
+exports.postDeletePost = (req, res, next) => {
+  const prodId = req.body.postId;
+  Post.deleteOne({
       _id: prodId,
       userId: req.user._id
     })

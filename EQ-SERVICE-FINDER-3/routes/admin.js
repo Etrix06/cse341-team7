@@ -11,14 +11,14 @@ const isAuth = require('../middleware/is-auth');
 const router = express.Router();
 
 // /admin/add-product => GET
-router.get('/add-product/:eqType', isAuth, adminController.getAddProduct);
+router.get('/add-post/:eqType', isAuth, adminController.getAddPost);
 
 // /admin/products => GET
-router.get('/products/:eqType', isAuth, adminController.getProducts);
+router.get('/posts/:eqType', isAuth, adminController.getPosts);
 
 // /admin/add-product => POST
 router.post(
-    '/add-product',
+    '/add-post',
     [
         body('title')
         .isString()
@@ -36,13 +36,13 @@ router.post(
         .trim()
     ],
     isAuth,
-    adminController.postAddProduct
+    adminController.postAddPost
 );
 
-router.get('/edit-product/:eqType/:productId', isAuth, adminController.getEditProduct);
+router.get('/edit-post/:eqType/:postId', isAuth, adminController.getEditPost);
 
 router.post(
-    '/edit-product',
+    '/edit-post',
     [
         body('title')
         .isString()
@@ -60,9 +60,9 @@ router.post(
         .trim()
     ],
     isAuth,
-    adminController.postEditProduct
+    adminController.postEditPost
 );
 
-router.post('/delete-product', isAuth, adminController.postDeleteProduct);
+router.post('/delete-post', isAuth, adminController.postAddPost);
 
 module.exports = router;

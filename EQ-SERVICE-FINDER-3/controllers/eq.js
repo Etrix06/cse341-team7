@@ -1,4 +1,4 @@
-const Product = require('../models/product');
+const Post = require('../models/post');
 const Order = require('../models/order');
 const User = require('../models/user');
 
@@ -8,15 +8,15 @@ exports.getServices = (req, res, next) => {
  const page = +req.query.page || 1;             //for pagination
   let totalItems;  
 
-  Product.find({eqType: 'service'}).countDocuments().then(numProducts => {
-    totalItems = numProducts;
-    return Product.find()
+  Post.find({eqType: 'service'}).countDocuments().then(numPosts => {
+    totalItems = numPosts;
+    return Post.find()
     .skip((page - 1) * ITEMS_PER_PAGE)              //for pagination
     .limit(ITEMS_PER_PAGE);
     })
-    .then(products => {
-      res.render('shop/service-list', {
-        prods: products,
+    .then(posts => {
+      res.render('eq/service-list', {
+        prods: posts,
         pageTitle: 'All Services',
         path: '/services',
         currentPage: page,
@@ -38,15 +38,15 @@ exports.getTalents = (req, res, next) => {
   const page = +req.query.page || 1;             //for pagination
   let totalItems;
 
-  Product.find({eqType: 'talent'}).countDocuments().then(numProducts => {
-    totalItems = numProducts;
-    return Product.find()
+  Post.find({eqType: 'talent'}).countDocuments().then(numPosts => {
+    totalItems = numPosts;
+    return Post.find()
     .skip((page - 1) * ITEMS_PER_PAGE)              //for pagination
     .limit(ITEMS_PER_PAGE);
     })
-    .then(products => {
-      res.render('shop/talent-list', {
-        prods: products,
+    .then(posts => {
+      res.render('eq/talent-list', {
+        prods: posts,
         pageTitle: 'All Talents',
         path: '/talents',
         currentPage: page,
@@ -64,14 +64,14 @@ exports.getTalents = (req, res, next) => {
     });
 };
 
-exports.getProduct = (req, res, next) => {  //change to getPosting
-  const prodId = req.params.productId;
-  Product.findById(prodId)
-    .then(product => {
-      res.render('shop/product-detail', {
-        product: product,
-        pageTitle: product.title,
-        path: '/products'
+exports.getPost = (req, res, next) => {  //change to getPosting
+  const prodId = req.params.postId;
+  Post.findById(prodId)
+    .then(post => {
+      res.render('eq/post-detail', {
+        post: post,
+        pageTitle: post.title,
+        path: '/posts'
       });
     })
     .catch(err => {
@@ -81,37 +81,19 @@ exports.getProduct = (req, res, next) => {  //change to getPosting
     });
 };
 
-//getTalent
-// exports.getTalent = (req, res, next) => {
-//   const prodId = req.params.productId;
-//   Product.findById(prodId)
-//     .then(product => {
-//       res.render('shop/product-detail', {
-//         product: product,
-//         pageTitle: product.title,
-//         path: '/products'
-//       });
-//     })
-//     .catch(err => {
-//       const error = new Error(err);
-//       error.httpStatusCode = 500;
-//       return next(error);
-//     });
-// };
-
 exports.getIndex = (req, res, next) => {
   const page = +req.query.page || 1;             //for pagination
   let totalItems;
 
-  Product.find().countDocuments().then(numProducts => {
-    totalItems = numProducts;
-    return Product.find()
+  Post.find().countDocuments().then(numPosts => {
+    totalItems = numPosts;
+    return Post.find()
     .skip((page - 1) * ITEMS_PER_PAGE)              //for pagination
     .limit(ITEMS_PER_PAGE);
     })
-    .then(products => {
-      res.render('shop/index', {
-        prods: products,
+    .then(posts => {
+      res.render('eq/index', {
+        prods: posts,
         pageTitle: 'EQ FINDER',
         path: '/',
         currentPage: page,
@@ -132,14 +114,14 @@ exports.getIndex = (req, res, next) => {
 
  exports.getSignups = (req, res, next) => {
    req.user
-     .populate('cart.items.productId')
+     .populate('cart.items.postId')
      // .execPopulate()
      .then(user => {
-       const products = user.cart.items;
-       res.render('shop/signups', {
+       const posts = user.cart.items;
+       res.render('eq/signups', {
          path: '/signups',
          pageTitle: 'Your Signups',
-         products: products
+         posts: posts
        });
      })
      .catch(err => {
@@ -150,10 +132,10 @@ exports.getIndex = (req, res, next) => {
  };
 
  exports.postSignups = (req, res, next) => {
-   const prodId = req.body.productId;
-   Product.findById(prodId)
-     .then(product => {
-       return req.user.addToCart(product);
+   const prodId = req.body.postId;
+   Post.findById(prodId)
+     .then(post => {
+       return req.user.addToCart(post);
      })
      .then(result => {
        console.log(result);
@@ -166,10 +148,8 @@ exports.getIndex = (req, res, next) => {
      });
  };
 
-
-
  exports.postSignupCancel = (req, res, next) => {
-   const prodId = req.body.productId;
+   const prodId = req.body.postId;
    req.user
      .removeFromCart(prodId)
      .then(result => {
@@ -186,14 +166,14 @@ exports.getIndex = (req, res, next) => {
 
 exports.postOrder = (req, res, next) => {
   req.user
-    .populate('cart.items.productId')
+    .populate('cart.items.postId')
     //.execPopulate()
     .then(user => {
-      const products = user.cart.items.map(i => {
+      const posts = user.cart.items.map(i => {
         return {
           quantity: i.quantity,
-          product: {
-            ...i.productId._doc
+          post: {
+            ...i.postId._doc
           }
         };
       });

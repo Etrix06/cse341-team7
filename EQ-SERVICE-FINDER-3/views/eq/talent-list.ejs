@@ -4,7 +4,7 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
-    <% if (isAuthenticated) { %>
+        <% if (isAuthenticated) { %>
         <header class="main-header">
             <nav>
                 <ul class="main-header__item-list">
@@ -15,24 +15,22 @@
                         <a class="<%= path === '/orders' ? 'active' : '' %>" href="/orders">Orders</a>
                     </li> -->
                     <li class="main-header__item">
-                        <a class="<%= path === '/admin/add-product' ? 'active' : '' %>" href="/admin/add-product/service">Add Service
+                        <a class="<%= path === '/admin/add-post' ? 'active' : '' %>" href="/admin/add-post/talent">Add Talent
                         </a>
                     </li>
                     <li class="main-header__item">
-                        <a class="<%= path === '/admin/products' ? 'active' : '' %>" href="/admin/products/service">Admin Services
+                        <a class="<%= path === '/admin/posts' ? 'active' : '' %>" href="/admin/posts/talent">Admin Talents
                         </a>
                     </li>
                 </ul>
             </nav>
-            
         </header>
         <% } %>
-
     <main>
         <% if (prods.length > 0) { %>
         <div class="grid">
             <% for (let product of prods) { %>
-            <% if (product.eqType === "service") { %>
+            <% if (product.eqType === "talent") { %>
             <article class="card product-item">
                 <header class="card__header">
                     <h1 class="product__title">
@@ -63,7 +61,7 @@
         <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
 
         <% } else { %>
-        <h1>No Services Found!</h1>
+        <h1>No Talents Found!</h1>
         <% } %>
     </main>
     <%- include('../includes/end.ejs') %>

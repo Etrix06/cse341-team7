@@ -5,15 +5,15 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
-        <% if (products.length > 0) { %>
+        <% if (posts.length > 0) { %>
         <ul class="cart__item-list">
             <li class="cart__item">
               <h2 style="align-items: center;">-----Your current Signups:  -----</h2>
             </li>
-            <% products.forEach(p => { %>
+            <% posts.forEach(p => { %>
             <li class="cart__item">
-                <h1><%= p.productId.title %></h1>
-                <h2 style="font-variant-caps: all-small-caps;"><%= p.productId.eqType %></h2>
+                <h1><%= p.postId.title %></h1>
+                <h2 style="font-variant-caps: all-small-caps;"><%= p.postId.eqType %></h2>
                 <form action="/postSignupCancel" method="POST">
                     <input type="hidden" value="<%= p.productId._id %>" name="productId">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
