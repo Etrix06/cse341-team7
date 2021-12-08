@@ -55,7 +55,7 @@
             method="POST">
             <div class="form-control">
                 <label for="title">Name of <%= eqType %></label>
-                <input class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>" type="text"
+                <input class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>" placeholder="<% if (eqType=== 'service') { %> Piano move, Family move, Yard cleanup... <% } else { %> English tutor, Mechanic... <% } %>" type="text"
                     name="title" id="title" value="<% if (editing || hasError) { %><%= product.title %><% } %>">
             </div>
             <div class="form-control">
@@ -73,12 +73,12 @@
             <div class="form-control">
                 <label for="description">Description</label>
                 <textarea class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
-                    name="description" id="description"
+                    name="description" id="description" placeholder="Brief description of your <%= eqType %>"
                     rows="5"><% if (editing || hasError) { %><%= product.description %><% } %></textarea>
             </div>
             <div class="form-control">
                 <label for="title">Contact Info</label>
-                <input class="<%= validationErrors.find(e => e.param === 'contact') ? 'invalid' : '' %>" type="text"
+                <input class="<%= validationErrors.find(e => e.param === 'contact') ? 'invalid' : '' %>" type="text" placeholder="email or phone #"
                     name="contact" id="contact" value="<% if (editing || hasError) { %><%= product.contact %><% } %>">
             </div>
             <% if (editing) { %>
