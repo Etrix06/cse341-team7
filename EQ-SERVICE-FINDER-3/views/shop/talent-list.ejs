@@ -49,6 +49,12 @@
                     </p>
                 </div>
                 <div class="card__actions">
+                    <% if (!isAuthenticated) { %>
+                        <p>Sign in for contact Info.</p>
+                    <% } %>
+                    <% if (isAuthenticated) { %>
+                        <p>Contact Info: <%= product.contact %></p>
+                    <% } %>
                     <a href="/products/<%= product._id %>" class="btn">Details</a>
                     <% if (isAuthenticated) { %>
                     <%- include('../includes/sign-up.ejs', {product: product}) %>

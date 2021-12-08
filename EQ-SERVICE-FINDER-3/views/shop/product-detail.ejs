@@ -4,7 +4,7 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main class="centered">
-        <h1>PRODUCT DETAIL</h1>
+        <h1>POST DETAIL</h1>
         <h1><%= product.title %></h1>
         <hr>
         <div class="image">
@@ -12,7 +12,11 @@
         </div>
         <!-- <h2><%= product.price %></h2> -->
         <p><%= product.description %></p>
+        <% if (!isAuthenticated) { %>
+            <p>Sign in for contact Info.</p>
+        <% } %>
         <% if (isAuthenticated) { %>
+        <p>Contact Info: <%= product.contact %></p>
         <%- include('../includes/sign-up.ejs', {product: product}) %>
         <% } %>
     </main>
